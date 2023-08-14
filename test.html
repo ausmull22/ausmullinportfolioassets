@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Interactive Comparison Table</title>
+	<style>
+		table, th, td {
+			border: 1px solid black;
+			border-collapse: collapse;
+			padding: 5px;
+		}
+		th {
+			background-color: #f2f2f2;
+		}
+		.highlight {
+			background-color: yellow;
+		}
+	</style>
+</head>
+<body>
+	<table id="comparisonTable">
+		<thead>
+			<tr>
+				<th>Feature</th>
+				<th>Option 1</th>
+				<th>Option 2</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Price</td>
+				<td>$100</td>
+				<td>$150</td>
+			</tr>
+			<tr>
+				<td>Storage</td>
+				<td>256GB</td>
+				<td>512GB</td>
+			</tr>
+			<tr>
+				<td>Weight</td>
+				<td>1.5kg</td>
+				<td>2.0kg</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<script>
+		// Get the table element
+		const table = document.getElementById("comparisonTable");
+
+		// Get the table cells
+		const cells = table.getElementsByTagName("td");
+
+		// Add event listeners to the cells
+		for (let i = 0; i < cells.length; i++) {
+			cells[i].addEventListener("click", function() {
+				// Remove any existing highlights
+				for (let j = 0; j < cells.length; j++) {
+					cells[j].classList.remove("highlight");
+				}
+
+				// Highlight the clicked cell
+				this.classList.add("highlight");
+
+				// Compare the values of the cells in the same column
+				const columnCells = table.querySelectorAll(`td:nth-child(${this.cellIndex + 1})`);
+				for (let j = 0; j < columnCells.length; j++) {
+					if (columnCells[j] !== this) {
+						if (parseFloat(columnCells[j].textContent) > parseFloat(this.textContent)) {
+							columnCells[j].classList.add("highlight");
+						}
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>
